@@ -1,3 +1,22 @@
+# Variable freertos_port must be set as a string, eg 'ARM_CM0'
+if not is_variable('freertos_port')
+  error('freertos_port must be set with string indicating FreeRTOS port')
+endif
+
+# Variable freertos_heap_type must be set as a string, eg 'heap_1'
+if not is_variable('freertos_heap_type')
+  error('freertos_heap_type must be set with string indicating heap type')
+endif
+
+# Port source
+_freertos_port_src = 'FreeRTOSV10.0.0/Source/portable/GCC/@0@/port.c'.format(
+  freertos_port)
+
+# Heap source path
+_freertos_heap_src = 'FreeRTOSV10.0.0/Source/portable/MemMang/@0@.c'.format(
+  freertos_heap_type)
+
+# Common source paths
 freertos_srcs = files([
   'FreeRTOSV10.0.0/Source/list.c',
   'FreeRTOSV10.0.0/Source/event_groups.c',
@@ -7,34 +26,20 @@ freertos_srcs = files([
   'FreeRTOSV10.0.0/Source/timers.c',
   'FreeRTOSV10.0.0/rtos_port.c',
   'FreeRTOSV10.0.0/Source/tasks.c',
+  _freertos_port_src,
+  _freertos_heap_src,
 ])
 
-freertos_gcc_arm_cm0_srcs = files([
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0/port.c'])
-
-freertos_gcc_arm_cm4f_srcs = files([
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM4F/port.c'])
-
-freertos_memmang_dir = 'FreeRTOSV10.0.0/Source/portable/MemMang'
-
-freertos_src_heap_1 = files(join_paths(freertos_memmang_dir,'heap_1.c'))
-freertos_src_heap_2 = files(join_paths(freertos_memmang_dir,'heap_2.c'))
-freertos_src_heap_3 = files(join_paths(freertos_memmang_dir,'heap_3.c'))
-freertos_src_heap_4 = files(join_paths(freertos_memmang_dir,'heap_4.c'))
-freertos_src_heap_5 = files(join_paths(freertos_memmang_dir,'heap_5.c'))
+_freertos_port_incdir = 'FreeRTOSV10.0.0/Source/portable/GCC/@0@'.format(
+  freertos_port)
 
 freertos_incdirs = include_directories([
   '.',
   'FreeRTOSV10.0.0',
   'FreeRTOSV10.0.0/Source/include',
+  _freertos_port_incdir,
 #  'FreeRTOSV10.0.0/module_config',
 ])
-
-freertos_gcc_arm_cm0_incdirs = include_directories([
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0'])
-
-freertos_gcc_arm_cm4f_incdirs = include_directories([
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM4F'])
 
 freertos_sysview_srcs = files([
   'SEGGER_SystemView/SEGGER_SYSVIEW_FreeRTOS.c',
