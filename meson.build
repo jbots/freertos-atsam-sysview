@@ -6,9 +6,14 @@ freertos_srcs = files([
   'FreeRTOSV10.0.0/Source/queue.c',
   'FreeRTOSV10.0.0/Source/timers.c',
   'FreeRTOSV10.0.0/rtos_port.c',
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0/port.c',
   'FreeRTOSV10.0.0/Source/tasks.c',
 ])
+
+freertos_gcc_arm_cm0_srcs = files([
+  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0/port.c'])
+
+freertos_gcc_arm_cm4f_srcs = files([
+  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM4F/port.c'])
 
 freertos_memmang_dir = 'FreeRTOSV10.0.0/Source/portable/MemMang'
 
@@ -22,9 +27,14 @@ freertos_incdirs = include_directories([
   '.',
   'FreeRTOSV10.0.0',
   'FreeRTOSV10.0.0/Source/include',
-  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0',
 #  'FreeRTOSV10.0.0/module_config',
 ])
+
+freertos_gcc_arm_cm0_incdirs = include_directories([
+  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM0'])
+
+freertos_gcc_arm_cm4f_incdirs = include_directories([
+  'FreeRTOSV10.0.0/Source/portable/GCC/ARM_CM4F'])
 
 freertos_sysview_srcs = files([
   'SEGGER_SystemView/SEGGER_SYSVIEW_FreeRTOS.c',
