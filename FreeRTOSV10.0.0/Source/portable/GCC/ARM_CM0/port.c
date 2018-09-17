@@ -327,8 +327,18 @@ void xPortPendSVHandler( void )
 }
 /*-----------------------------------------------------------*/
 
+/* Define SEGGER_SYSVIEW_TickCnt needed to use Segger SystemView with Cortex-M0.
+ * As described in Cortex-M0 section of SystemView manual, this variable is
+ * used in place of the cycle count register present on M3/M4 etc cores.
+ * It must be incremented before any SYSVIEW events are generated.
+ * It is then used by SEGGER_SYSVIEW_X_GetTimestamp to create timestamp. */
+unsigned int SEGGER_SYSVIEW_TickCnt;
+
 void xPortSysTickHandler( void )
 {
+	/* Increment SYSVIEW_TickCnt before any SYSVIEW events generated */
+	SEGGER_SYSVIEW_TickCnt++;
+
 uint32_t ulPreviousMask;
 
 	ulPreviousMask = portSET_INTERRUPT_MASK_FROM_ISR();
