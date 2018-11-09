@@ -50,3 +50,10 @@ freertos_sysview_incdirs = include_directories([
   'SEGGER_SystemView',
 ])
 
+freertos_lib = static_library(
+  'freertos',
+  [freertos_srcs, freertos_sysview_srcs],
+  c_args              : [c_args],
+  include_directories : [config_incdirs, atstart_incdirs, device_incdirs, cmsis_incdirs,
+    segger_sysview_incdirs, freertos_sysview_incdirs, freertos_incdirs]
+)
